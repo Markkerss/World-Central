@@ -4,7 +4,7 @@ import CountriesList from './components/CountriesList.jsx'
 
 function App() {
   const [countries, setCountries] = useState([])
-
+   
   useEffect (() => {
     fetch("https://restcountries.eu/rest/v2/all")
       .then(res => {
@@ -19,11 +19,13 @@ function App() {
     }, [])
 
   return (
-    <ul>
-      {countries.map(country => 
-        <CountriesList country={country} key={country.name}/>
-      )}
-    </ul>
+    <>
+      <ul>
+        {countries.map(country => 
+          <CountriesList country={country} key={country.name}/>
+        )}
+      </ul>
+    </>
   )
 }
 
