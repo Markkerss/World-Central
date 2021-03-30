@@ -1,12 +1,5 @@
-import React from 'react'
-
-export default class CountriesList extends React.Component {
-  render() {
-    const { country } = this.props
-    return (
-      <>
-        <li>{ country.name }</li>
-      </>
-    )
-  }
+export default function CountriesList (props) {
+  return (
+    <li>{ props.country.name }</li>
+  )
 }

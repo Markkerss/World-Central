@@ -1,33 +1,30 @@
 import './App.css'
-import React from 'react'
-import axios from 'axios'
-import CountriesList from './components/countriesList'
+import React, { useState, useEffect} from 'react'
+import CountriesList from './components/CountriesList.jsx'
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      countries: []
-    }
-  }
+function App() {
+  const [countries, setCountries] = useState([])
 
-  componentDidMount() {
-    axios.get(`https://restcountries.eu/rest/v2/all`)
+  useEffect (() => {
+    fetch("https://restcountries.eu/rest/v2/all")
       .then(res => {
-        const countries = res.data
-        this.setState({ countries })
+        return res.json()
       })
-  }
+      .then(countries => {
+        setCountries(countries)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }, [])
 
-  render() {
-    return (
-      <ul>
-        { this.state.countries.map(country => 
-          <CountriesList country = {country} />
-        )}
-      </ul>
-    )
-  }
+  return (
+    <ul>
+      {countries.map(country => 
+        <CountriesList country={country} key={country.name}/>
+      )}
+    </ul>
+  )
 }
 
 export default App
