@@ -1,32 +1,44 @@
 import './App.css'
-import React, { useState, useEffect} from 'react'
-import CountriesList from './components/CountriesList.jsx'
+import React from "react";
 
-function App() {
-  const [countries, setCountries] = useState([])
-   
-  useEffect (() => {
-    fetch("https://restcountries.eu/rest/v2/all")
-      .then(res => {
-        return res.json()
-      })
-      .then(countries => {
-        setCountries(countries)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }, [])
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
+import Home from './pages/Home'
+import CountryDetailsByName from './pages/CountryDetailsByName'
+// import {
+//   Home,
+//   CountryDetailsByName
+// } from './pages';
+
+export default function App() {
   return (
-    <>
-      <ul>
-        {countries.map(country => 
-          <CountriesList country={country} key={country.name}/>
-        )}
-      </ul>
-    </>
-  )
-}
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/country/:name">Details</Link>
+            </li>
+          </ul>
+        </nav>
 
-export default App
+        <Switch>
+          <Route path="/country/:name">
+            <CountryDetailsByName />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
