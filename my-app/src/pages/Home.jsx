@@ -1,31 +1,29 @@
-import React, { useState, useEffect} from 'react'
+import React, { useEffect } from 'react'
 import CountriesList from '../components/CountriesList.jsx'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCountriesAsync } from '../store/actions/setCountries'
 
 function Home() {
-  const [countries, setCountries] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const dispatch = useDispatch()
+  const { loading, countries } = useSelector(state => state.countryReducer)
 
-  useEffect (() => {
-    setIsLoading(true)
-    fetch("https://restcountries.eu/rest/v2/all")
-      .then(res => {
-        return res.json()
-      })
-      .then(countries => {
-        setCountries(countries)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-      .finally(_ => setIsLoading(false))
-    }, [])
+  useEffect (()  => {
+    dispatch(setCountriesAsync())
+  }, [])
   
-  if (isLoading) return <h1>Loading...</h1>
+  if (loading) return( 
+    <>
+      <div className="d-flex justify-content-center" style={{"marginTop":"5rem"}}>
+        <h1>Loading</h1>
+        <div class="spinner-border ml-3" role="status"></div>
+      </div>
+    </>
+  ) 
 
   return (
     <>
-      <h1 style={{"text-align":"center", "margin-top":"4.5rem"}}>Countries of the World</h1>
-      <div class="row" style={{"margin-top": "5rem"}}>
+      <h1 style={{"textAlign":"center", "marginTop":"4.5rem"}}>Countries of the World</h1>
+      <div className="row" style={{"marginTop": "5rem"}}>
         {countries.map(country => 
           <CountriesList country={country} key={country.name}/>
         )}

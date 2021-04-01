@@ -15,18 +15,18 @@ export default function App() {
   return (
     <Router>
       <div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">WorldCentral</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a className="navbar-brand" href="#">WorldCentral</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarColor02">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#"><Link to="/" style={{"color":"white"}}>Home</Link></a>
+          <div className="collapse navbar-collapse" id="navbarColor02">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item active">
+                <Link className="nav-link" to="/" style={{"color":"white"}}>Home</Link>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"><Link to="/favorites" style={{"color":"white"}}>Favorites</Link></a>
+              <li className="nav-item">
+                <Link className="nav-link" to="/favorites" style={{"color":"white"}}>Favorites</Link>
               </li> 
             </ul>
           </div>
@@ -39,7 +39,7 @@ export default function App() {
           <Route path="/favorites">
             <Favorites />
           </Route>
-          <Route exact path="/">
+          <Route path="/">
             <Home />
           </Route>
         </Switch>

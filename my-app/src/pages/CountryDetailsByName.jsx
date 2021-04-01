@@ -1,40 +1,37 @@
-import React, { useState, useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCountryDetailsAsync } from '../store/actions/setCountries'
+
 
 function CountryDetailsByName() {
   const { name } = useParams()
-  const [isLoading, setIsLoading] = useState(false)
-  const [countryDetails, setCountryDetails] = useState({})
-   
-  useEffect (() => {
-    setIsLoading(true)
-    fetch(`https://restcountries.eu/rest/v2/name/${name}`)
-      .then(res => {
-        return res.json()
-      })
-      .then(countryDetails => {
-        setCountryDetails(countryDetails)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-      .finally(_ => setIsLoading(false))
-    }, [name])
-  
-  if (isLoading) return <h1>Loading...</h1>
+  const dispatch = useDispatch()
+  const { loading, countryDetails } = useSelector(state => state.countryReducer)
+
+  useEffect (()  => {
+    dispatch(setCountryDetailsAsync(name))
+  }, [name])
+
+  if (loading) return( 
+    <>
+      <div className="d-flex justify-content-center" style={{"marginTop":"5rem"}}>
+        <h1>Loading</h1>
+        <div class="spinner-border ml-3" role="status"></div>
+      </div>
+    </>
+  ) 
 
   return (
     <>
-      <p style={{"display":"hidden"}}>{JSON.stringify(countryDetails[0])}</p>
-      //problems in displaying information
-      {/* <div style={{"text-align":"center"}}>
-        <h1 style={{"margin-top":"4.5rem", "font-size":"3rem"}}>{ countryDetails[0].name }</h1>
-        <img style={{"max-width":"25rem", "margin-top":"3.5rem"}} src={ countryDetails[0].flag }/> 
-        <p class="mt-5" style={{"font-weight":"500", "font-size":"1.5rem"}}>Capital: { countryDetails[0].capital }</p>
-        <p style={{"font-weight":"500", "font-size":"1.5rem"}}>Population: { countryDetails[0].population }</p>
-        <p style={{"font-weight":"500", "font-size":"1.5rem"}}>Region: { countryDetails[0].region }</p>
-        <p style={{"font-weight":"500", "font-size":"1.5rem", "margin-bottom":"7rem"}}>Sub-Region: { countryDetails[0].subregion }</p>
-      </div> */}
+      <div style={{"textAlign":"center"}}>
+        <h1 style={{"marginTop":"4.5rem", "fontSize":"3rem"}}>{ countryDetails.name }</h1>
+        <img style={{"maxWidth":"25rem", "marginTop":"3.5rem"}} src={ countryDetails.flag }/> 
+        <p className="mt-5" style={{"fontWeight":"500", "fontSize":"1.5rem"}}>Capital: { countryDetails.capital }</p>
+        <p style={{"fontWeight":"500", "fontSize":"1.5rem"}}>Population: { countryDetails.population }</p>
+        <p style={{"fontWeight":"500", "fontSize":"1.5rem"}}>Region: { countryDetails.region }</p>
+        <p style={{"fontWeight":"500", "fontSize":"1.5rem", "marginBottom":"7rem"}}>Sub-Region: { countryDetails.subregion }</p>
+      </div>
     </>
   )
 }
